@@ -2,19 +2,14 @@ package cn.crrczelc.common.hmi.test;
 
 import cn.crrczelc.common.hmi.inner.entity.InnerHmiConfig;
 import cn.crrczelc.common.hmi.inner.entity.InnerHmiDetail;
-import cn.crrczelc.common.hmi.inner.processors.single.BaseSingleHmiExtendProcessor;
-import cn.crrczelc.common.hmi.inner.processors.single.SingleHmiProcessor;
 import cn.crrczelc.common.hmi.inner.transfer.InnerHmiTransfer;
-import cn.crrczelc.common.hmi.inner.utils.ProcessorCacheUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class HmiTest {
     @Test

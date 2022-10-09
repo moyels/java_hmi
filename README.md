@@ -33,22 +33,30 @@
            class Beans {
                @Bean
                fun createTransferProcessor() : CommonHmiTransferHelper{
-                    return CommonHmiTransferHelper.createCommonHmiTransfer(
-                        lineCoachesStrMap = mapOf<String,String>(),
-                        hmiConfigBeanList = listOf<CommonHmiConfigBean>(),
-                        hmiDetailBeanList = listOf<CommonHmiDetailBean>(),
-                        postProcessor = {
-                            // 后处理器，将对 hmi 的结果执行此处方法进行处理，当仅对 bean 做了修改时，必须返回null
-                        },
-                        preProcessor = {
-                            // 前处理器，将在执行每一条hmi信息前对 HmiDetailBean进行处理，默认提供了extraInfo转换为json类型的内容，一般无需使用
-                        }
-                    )
+                    return InnerHmiTransfer.Builder()
+                       .setLineCoachesMap(lineCoachesMap)
+                       .setHmiConfigs(innerHmiConfigs)
+                       .setHmiDetails(innerHmiDetails)
+                       .appendProcessor()
+                       .build()
                }
            }
            ```
         2. java
-           > 应与kotlin类似，仅需要对应方法中的参数位置，kotlin中可以指定某个参数的值
+           ```java
+           @Configuration
+           class BeanFactory() {
+               @Bean
+               public InnerHmiTransfer innerHmiTransfer() {
+                   return new InnerHmiTransfer.Builder()
+                       .setLineCoachesMap(lineCoachesMap)
+                       .setHmiConfigs(innerHmiConfigs)
+                       .setHmiDetails(innerHmiDetails)
+                       .appendProcessor()
+                       .build();
+               }
+           }
+           ```
 
 4. 描述图
 
