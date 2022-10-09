@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean, InnerHmiProcessorBean> {
     private static final Log LOGGER = Log.get(IteratorHmiProcessor.class);
-    private static final Map<String, IIteratorAdapter<InnerHmiProcessorBean>> ITERATOR_CLASS_INST_MAP = new HashMap<>();
+    private static final Map<String, IIteratorAdapter<Object>> ITERATOR_CLASS_INST_MAP = new HashMap<>();
 
     @Override
     protected boolean check(InnerHmiProcessorBean inParam) {
@@ -58,7 +58,7 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
         boolean contains = Arrays.asList(iteratorClass.getInterfaces()).contains(IIteratorAdapter.class);
 
         if (contains) {
-            IIteratorAdapter<InnerHmiProcessorBean> iteratorAdapter = (IIteratorAdapter<InnerHmiProcessorBean>) CatchUtil.catchExcept(iteratorClass::newInstance);
+            IIteratorAdapter<Object> iteratorAdapter = (IIteratorAdapter<Object>) CatchUtil.catchExcept(iteratorClass::newInstance);
 
             if (Objects.isNull(iteratorAdapter)) {
                 LOGGER.error("请务必使用空构造方法，{0}类构造失败", iteratorClassStr);
@@ -88,13 +88,13 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
             String classStr = classStrDetailsEntry.getKey();
 
             ArrayList<Object> inResList = new ArrayList<>();
-            IIteratorAdapter<InnerHmiProcessorBean> iteratorAdapter = ITERATOR_CLASS_INST_MAP.get(classStr);
+            IIteratorAdapter<Object> iteratorAdapter = ITERATOR_CLASS_INST_MAP.get(classStr);
 
             List<InnerHmiDetail> details = classStrDetailsEntry.getValue();
 
             for (InnerHmiDetail detail : details) {
 
-                for (InnerHmiProcessorBean item : iteratorAdapter.iteratorList(detail)) {
+                for (Object item : iteratorAdapter.iteratorList(detail)) {
                     InnerHmiDetail tempDetail = BeanUtil.copyProperties(detail, InnerHmiDetail.class);
                     iteratorAdapter.alterDetail(item, tempDetail);
 

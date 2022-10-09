@@ -34,4 +34,26 @@ public class HmiTest {
 
         System.out.println(JSONUtil.parseObj(res));
     }
+
+    @Test
+    public void iteratorHmi() {
+        List<InnerHmiConfig> innerHmiConfigs = CollectionUtil.newArrayList(
+                new InnerHmiConfig(1L, "test", "测试", 1)
+        );
+
+        List<InnerHmiDetail> innerHmiDetails = CollectionUtil.newArrayList(
+                new InnerHmiDetail(1L, "M1", "test", "test_1", "测试1", null, "2751_1", null, "0", "V", "备注--默认备注", "cn.crrczelc.common.hmi.test.TestIteratorClass", "{}")
+        );
+
+        InnerHmiTransfer hmiTransfer = new InnerHmiTransfer.Builder()
+                .setHmiConfigs(innerHmiConfigs)
+                .setHmiDetails(innerHmiDetails)
+                .appendProcessor()
+                .build();
+
+        Map<String, Object> param = MapUtil.builder("512_1", (Object) 10).build();
+        Map<String, Object> test = hmiTransfer.transfer(null, "test", param);
+
+        System.out.println(JSONUtil.toJsonStr(test));
+    }
 }
