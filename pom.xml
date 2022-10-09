@@ -6,7 +6,7 @@
 
     <groupId>cn.crrczelc.common</groupId>
     <artifactId>hmi</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -58,4 +58,45 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>codeup-repo</id>
+            <distributionManagement>
+                <repository>
+                    <id>rdc-releases</id>
+                    <layout>default</layout>
+                    <url>https://packages.aliyun.com/maven/repository/2182581-release-A5eQBQ/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>nexus-repo</id>
+            <distributionManagement>
+                <repository>
+                    <id>nexus</id>
+                    <layout>default</layout>
+                    <url>http://10.31.37.100:9022/repository/maven-releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
