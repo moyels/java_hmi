@@ -30,6 +30,7 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
      * check 遍历类型是否描述正确
      *
      * @param hmiDetails hmi items
+     *
      * @return 是否描述正确
      */
     private boolean checkIteratorClass(List<InnerHmiDetail> hmiDetails) {
@@ -94,7 +95,7 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
 
             for (InnerHmiDetail detail : details) {
 
-                for (Object item : iteratorAdapter.iteratorList(detail)) {
+                for (Object item : iteratorAdapter.iteratorList(inParam, detail)) {
                     InnerHmiDetail tempDetail = BeanUtil.copyProperties(detail, InnerHmiDetail.class);
                     iteratorAdapter.alterDetail(item, tempDetail);
 

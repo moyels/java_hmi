@@ -102,7 +102,7 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
     public Map<String, Object> transfer(InnerHmiTransferFrom inParam) {
         Map<String, List<InnerHmiDetail>> hmiDetailMap = inParam.getHmiDetailMap();
 
-        boolean hasCoaches = StrUtil.isNotBlank(inParam.getLineCode());
+        boolean hasCoaches = !(StrUtil.isBlank(inParam.getLineCode()) || CollectionUtil.isEmpty(lineCoachesMap));
         int size = hasCoaches ? hmiDetailMap.size() + 1 : hmiDetailMap.size();
 
         Map<String, Object> resMap = Maps.expectedSize(size, LinkedHashMap.class);

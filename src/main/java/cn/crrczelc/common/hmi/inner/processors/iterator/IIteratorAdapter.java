@@ -1,6 +1,7 @@
 package cn.crrczelc.common.hmi.inner.processors.iterator;
 
 import cn.crrczelc.common.hmi.inner.entity.InnerHmiDetail;
+import cn.crrczelc.common.hmi.inner.entity.InnerHmiProcessorBean;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface IIteratorAdapter<T> {
      *
      * @return 循环的列表
      */
-    List<T> iteratorList(InnerHmiDetail innerHmiDetail);
+    List<T> iteratorList(InnerHmiProcessorBean innerHmiProcessorBean, InnerHmiDetail innerHmiDetail);
 
     /**
      * 修改 detail 中的内容，如signalCode，以便根据循环获取不同的值
