@@ -24,7 +24,9 @@
        实现循环迭代操作，示例见：`cn.crrczelc.common.hmi.common.processor.iterator.TestIteratorAdapter`
 
 3. 使用方式
+
    > 因为使用了完全不同的架构，所以此处使用方式将有一个较大的改动，当然，简单的使用的话修改比较少
+
     1. 按依赖方式引入此包
     2. 构造bean的方式
         1. kotlin
@@ -32,7 +34,7 @@
            @Configuration
            class Beans {
                @Bean
-               fun createTransferProcessor() : CommonHmiTransferHelper{
+               fun createTransferProcessor() : InnerHmiTransfer {
                     return InnerHmiTransfer.Builder()
                        .setLineCoachesMap(lineCoachesMap)
                        .setHmiConfigs(innerHmiConfigs)
@@ -45,7 +47,7 @@
         2. java
            ```java
            @Configuration
-           class BeanFactory() {
+           class BeanFactory {
                @Bean
                public InnerHmiTransfer innerHmiTransfer() {
                    return new InnerHmiTransfer.Builder()
