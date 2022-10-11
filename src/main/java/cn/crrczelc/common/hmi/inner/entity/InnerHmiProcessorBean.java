@@ -18,4 +18,14 @@ import java.util.Map;
 public class InnerHmiProcessorBean {
     private List<InnerHmiDetail> hmiDetails;
     private Map<String, Object> paramMap;
+    private String lineCode;
+    private Map<String, Object> extraParam;
+
+    public static InnerHmiProcessorBean build(List<InnerHmiDetail> details, InnerHmiTransferFrom hmiTransferFrom) {
+        return new InnerHmiProcessorBean(details, hmiTransferFrom.getParamMap(), hmiTransferFrom.getLineCode(), hmiTransferFrom.getExtraParam());
+    }
+
+    public static InnerHmiProcessorBean build(List<InnerHmiDetail> details, InnerHmiProcessorBean hmiProcessorBean) {
+        return new InnerHmiProcessorBean(details, hmiProcessorBean.paramMap, hmiProcessorBean.getLineCode(), hmiProcessorBean.getExtraParam());
+    }
 }

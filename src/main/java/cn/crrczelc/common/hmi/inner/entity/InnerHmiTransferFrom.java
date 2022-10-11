@@ -20,4 +20,5 @@ public class InnerHmiTransferFrom {
     private String hmiCode;
     private Map<String, List<InnerHmiDetail>> hmiDetailMap;
     private Map<String, Object> paramMap;
+    private Map<String, Object> extraParam;
 }

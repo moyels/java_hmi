@@ -40,7 +40,7 @@ public class SubIndexHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
         for (Map.Entry<String, List<InnerHmiDetail>> subIndexDetailsEntry : subIndexDetailsMap.entrySet()) {
             List<InnerHmiDetail> details = subIndexDetailsEntry.getValue();
 
-            InnerHmiProcessorBean innerHmiProcessorBean = new InnerHmiProcessorBean(details, inParam.getParamMap());
+            InnerHmiProcessorBean innerHmiProcessorBean = InnerHmiProcessorBean.build(details, inParam);
             Object value = subProcess(innerHmiProcessorBean);
 
             if (Objects.nonNull(value)) {

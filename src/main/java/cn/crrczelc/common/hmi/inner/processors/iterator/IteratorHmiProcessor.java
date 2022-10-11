@@ -100,7 +100,7 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
                     iteratorAdapter.alterDetail(item, tempDetail);
 
                     List<InnerHmiDetail> tempDetails = CollectionUtil.newArrayList(tempDetail);
-                    inResList.add(subProcess(new InnerHmiProcessorBean(tempDetails, inParam.getParamMap())));
+                    inResList.add(subProcess(InnerHmiProcessorBean.build(tempDetails, inParam)));
                 }
 
             }

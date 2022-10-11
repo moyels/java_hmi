@@ -44,7 +44,7 @@ public class CarriageHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
             String key = carriageDetailsEntry.getKey();
             List<InnerHmiDetail> details = carriageDetailsEntry.getValue();
 
-            InnerHmiProcessorBean innerHmiProcessorBean = new InnerHmiProcessorBean(details, inParam.getParamMap());
+            InnerHmiProcessorBean innerHmiProcessorBean = InnerHmiProcessorBean.build(details, inParam);
             Object value = subProcess(innerHmiProcessorBean);
 
             if (Objects.nonNull(value)) {

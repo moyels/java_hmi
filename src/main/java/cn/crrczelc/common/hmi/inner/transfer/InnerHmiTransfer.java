@@ -88,13 +88,36 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
         return hmiCodeParamDetailsMap;
     }
 
+    /**
+     * transfer 不提供额外参数的简化操作
+     *
+     * @param lineCode 线路号
+     * @param hmiCode  hmi编号
+     * @param paramMap 参数map
+     *
+     * @return 转换结果
+     */
     public Map<String, Object> transfer(String lineCode, String hmiCode, Map<String, Object> paramMap) {
+        return transfer(lineCode, hmiCode, paramMap, Maps.expectedSize(0));
+    }
+
+    /**
+     * transfer 简化操作
+     *
+     * @param lineCode   线路号
+     * @param hmiCode    hmi编号
+     * @param paramMap   参数map
+     * @param extraParam 额外参数
+     *
+     * @return 转换结果
+     */
+    public Map<String, Object> transfer(String lineCode, String hmiCode, Map<String, Object> paramMap, Map<String, Object> extraParam) {
         if (StrUtil.isBlank(hmiCode) || !hmiConfigMap.containsKey(hmiCode) || !hmiDetailsMap.containsKey(hmiCode)) {
             return Maps.expectedSize(0);
         }
 
         Map<String, List<InnerHmiDetail>> paramDetailsMap = hmiDetailsMap.get(hmiCode);
-        InnerHmiTransferFrom inParam = new InnerHmiTransferFrom(lineCode, hmiCode, paramDetailsMap, paramMap);
+        InnerHmiTransferFrom inParam = new InnerHmiTransferFrom(lineCode, hmiCode, paramDetailsMap, paramMap, extraParam);
         return transfer(inParam);
     }
 
@@ -114,7 +137,7 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
         for (Map.Entry<String, List<InnerHmiDetail>> paramDetailsEntry : hmiDetailMap.entrySet()) {
             String param = paramDetailsEntry.getKey();
 
-            InnerHmiProcessorBean processorBean = new InnerHmiProcessorBean(paramDetailsEntry.getValue(), inParam.getParamMap());
+            InnerHmiProcessorBean processorBean = InnerHmiProcessorBean.build(paramDetailsEntry.getValue(), inParam);
 
             resMap.put(param, singleTransfer(processorBean));
         }
