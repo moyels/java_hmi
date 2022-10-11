@@ -9,6 +9,9 @@ import com.googlecode.aviator.AviatorEvaluator;
 
 import java.util.Objects;
 
+/**
+ * @author moyel
+ */
 public class HmiAviatorItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorItemBean> {
     private Boolean expressionCache;
 
@@ -22,6 +25,15 @@ public class HmiAviatorItemProcessor extends BaseHmiItemProcessor<InnerHmiProces
         if (this.expressionCache) {
             AviatorEvaluator.getInstance().setCachedExpressionByDefault(true);
         }
+    }
+
+    public void setExpressionCache(Boolean expressionCache) {
+        if (Objects.equals(expressionCache, this.expressionCache)) {
+            return;
+        }
+
+        this.expressionCache = expressionCache;
+        AviatorEvaluator.getInstance().setCachedExpressionByDefault(this.expressionCache);
     }
 
     @Override
