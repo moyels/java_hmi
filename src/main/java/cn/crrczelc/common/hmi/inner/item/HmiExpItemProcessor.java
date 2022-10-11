@@ -21,7 +21,7 @@ public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorI
     private static final String OR_COND_DELIMITER = "||";
     private static final String AND_COND_DELIMITER = "&&";
 
-    private static final String EXP_ITEM_PATTERN_STR = "(\\w+)([!=]=(\\w+))?";
+    private static final String EXP_ITEM_PATTERN_STR = "(\\w+)([!=]=(.+))?";
     private static final Pattern EXP_ITEM_PATTERN = Pattern.compile(EXP_ITEM_PATTERN_STR);
 
     private static final String EMPTY_REGEX = "\\s";

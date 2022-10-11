@@ -13,13 +13,12 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author moyel
  */
 public class ProcessorCacheUtil {
-    public static final Map<Class<? extends BaseHmiProcessor<InnerHmiProcessorBean, ?>>, BaseHmiProcessor<InnerHmiProcessorBean, ?>> PROCESSOR_MAP = Maps.expectedSize(4, LinkedHashMap.class);
+    public static final LinkedHashMap<Class<? extends BaseHmiProcessor<InnerHmiProcessorBean, ?>>, BaseHmiProcessor<InnerHmiProcessorBean, ?>> PROCESSOR_MAP = Maps.expectedLinked(4);
 
     static {
         SingleHmiProcessor singleHmiProcessor = new SingleHmiProcessor(true);

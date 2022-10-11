@@ -2,6 +2,7 @@ package cn.crrczelc.common.hmi.utils;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -23,5 +24,9 @@ public class Maps {
         }
 
         return new HashMap<>(round);
+    }
+
+    public static <T, R> LinkedHashMap<T, R> expectedLinked(int size) {
+        return ((LinkedHashMap<T, R>) expectedSize(size, LinkedHashMap.class));
     }
 }
