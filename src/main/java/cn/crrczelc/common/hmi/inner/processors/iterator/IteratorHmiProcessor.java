@@ -9,6 +9,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,9 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
         boolean contains = Arrays.asList(iteratorClass.getInterfaces()).contains(IIteratorAdapter.class);
 
         if (contains) {
-            IIteratorAdapter<Object> iteratorAdapter = (IIteratorAdapter<Object>) CatchUtil.catchExcept(iteratorClass::newInstance);
+            // 使用 构造方法调用，不直接使用Class.newInstance，避免使用弃用的方法，但要注意很可能会出现空指针异常
+            Constructor<IIteratorAdapter<?>> declaredConstructor = ((Constructor<IIteratorAdapter<?>>) CatchUtil.catchExcept(iteratorClass::getDeclaredConstructor));
+            IIteratorAdapter<Object> iteratorAdapter = Objects.nonNull(declaredConstructor) ? (IIteratorAdapter<Object>) CatchUtil.catchExcept(declaredConstructor::newInstance) : null;
 
             if (Objects.isNull(iteratorAdapter)) {
                 LOGGER.error("请务必使用空构造方法，{0}类构造失败", iteratorClassStr);
