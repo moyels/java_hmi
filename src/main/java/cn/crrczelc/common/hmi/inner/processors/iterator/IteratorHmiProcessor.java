@@ -95,9 +95,15 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
 
             for (InnerHmiDetail detail : details) {
 
-                for (Object item : iteratorAdapter.iteratorList(inParam, detail)) {
+                List<Object> temps = CatchUtil.catchExcept(() -> iteratorAdapter.iteratorList(inParam, detail));
+                List<Object> itemList = Objects.isNull(temps) ? CollectionUtil.newArrayList() : temps;
+
+                for (Object item : itemList) {
                     InnerHmiDetail tempDetail = BeanUtil.copyProperties(detail, InnerHmiDetail.class);
-                    iteratorAdapter.alterDetail(item, tempDetail);
+                    CatchUtil.catchExcept(() -> {
+                        iteratorAdapter.alterDetail(item, tempDetail);
+                        return null;
+                    });
 
                     List<InnerHmiDetail> tempDetails = CollectionUtil.newArrayList(tempDetail);
                     inResList.add(subProcess(InnerHmiProcessorBean.build(tempDetails, inParam)));
