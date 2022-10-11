@@ -114,7 +114,7 @@ public class IteratorHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean
 
             }
 
-            Object finalValue = iteratorAdapter.formatConversion(inResList);
+            Object finalValue = CatchUtil.catchExcept(() -> iteratorAdapter.formatConversion(inResList));
             if (Objects.nonNull(finalValue)) {
                 outResList.add(inResList);
                 break;
