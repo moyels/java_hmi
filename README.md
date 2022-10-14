@@ -62,4 +62,4 @@
 
 4. 描述图
 
-    ![HMI架构描述图](https://s1.ax1x.com/2022/10/09/xJFv1e.jpg)
+    ![HMI架构描述图](https://s1.ax1x.com/2022/10/14/xd7ToD.png)
