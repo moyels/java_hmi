@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @author moyel
  */
 public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorItemBean> {
-    private static final String OR_COND_DELIMITER = "||";
+    private static final String OR_COND_DELIMITER = "\\|\\|";
     private static final String AND_COND_DELIMITER = "&&";
 
     private static final String EXP_ITEM_PATTERN_STR = "(\\w+)([!=]=(.+))?";
@@ -26,7 +26,7 @@ public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorI
 
     private static final String EMPTY_REGEX = "\\s";
 
-    private static final Map<String, Boolean> signalCodeValidity = new HashMap<>();
+    private static final Map<String, Boolean> STRING_BOOLEAN_HASH_MAP = new HashMap<>();
 
     @Override
     protected boolean check(InnerHmiProcessorItemBean inParam) {
@@ -38,13 +38,13 @@ public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorI
 
         String signalCodeCompressed = signalCode.replaceAll(EMPTY_REGEX, "");
 
-        if (!signalCodeValidity.containsKey(signalCodeCompressed)) {
+        if (!STRING_BOOLEAN_HASH_MAP.containsKey(signalCodeCompressed)) {
             String[] exps = signalCodeCompressed.split(OR_COND_DELIMITER);
 
-            signalCodeValidity.put(signalCodeCompressed, !(ArrayUtil.isEmpty(exps) || !checkExps(exps)));
+            STRING_BOOLEAN_HASH_MAP.put(signalCodeCompressed, !(ArrayUtil.isEmpty(exps) || !checkExps(exps)));
         }
 
-        return signalCodeValidity.get(signalCodeCompressed);
+        return STRING_BOOLEAN_HASH_MAP.get(signalCodeCompressed);
     }
 
     private boolean checkExps(String[] exps) {
@@ -66,7 +66,7 @@ public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorI
         String signalCode = inParam.getHmiDetail().getSignalCode();
         String signalCodeCompressed = signalCode.replaceAll(EMPTY_REGEX, StrUtil.EMPTY);
 
-        if (!signalCodeValidity.getOrDefault(signalCodeCompressed, false)) {
+        if (!STRING_BOOLEAN_HASH_MAP.getOrDefault(signalCodeCompressed, false)) {
             return false;
         }
 
