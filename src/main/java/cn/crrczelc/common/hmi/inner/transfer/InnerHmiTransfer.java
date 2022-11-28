@@ -76,7 +76,7 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
         Map<String, List<InnerHmiDetail>> hmiCodeDetailsMap = Maps.expectedLinked(filteredDetailList.size());
 
         for (InnerHmiDetail innerHmiDetail : filteredDetailList) {
-            if (hmiCodeDetailsMap.containsKey(innerHmiDetail.getHmiCode())) {
+            if (!hmiCodeDetailsMap.containsKey(innerHmiDetail.getHmiCode())) {
                 hmiCodeDetailsMap.put(innerHmiDetail.getHmiCode(), CollectionUtil.newArrayList(innerHmiDetail));
                 continue;
             }
