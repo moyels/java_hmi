@@ -71,7 +71,7 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
 
         Map<String, List<InnerHmiDetail>> hmiCodeDetailsMap = details.stream()
                 .filter(innerHmiDetail -> !(Objects.isNull(innerHmiDetail) || StrUtil.hasBlank(innerHmiDetail.getHmiCode(), innerHmiDetail.getParam())))
-                .collect(Collectors.groupingBy(InnerHmiDetail::getHmiCode));
+                .collect(Collectors.groupingBy(InnerHmiDetail::getHmiCode, LinkedHashMap::new, Collectors.toList()));
 
         Map<String, Map<String, List<InnerHmiDetail>>> hmiCodeParamDetailsMap = Maps.expectedSize(hmiCodeDetailsMap.size());
 
@@ -94,7 +94,6 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
      * @param lineCode 线路号
      * @param hmiCode  hmi编号
      * @param paramMap 参数map
-     *
      * @return 转换结果
      */
     public Map<String, Object> transfer(String lineCode, String hmiCode, Map<String, Object> paramMap) {
@@ -108,7 +107,6 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
      * @param hmiCode    hmi编号
      * @param paramMap   参数map
      * @param extraParam 额外参数
-     *
      * @return 转换结果
      */
     public Map<String, Object> transfer(String lineCode, String hmiCode, Map<String, Object> paramMap, Map<String, Object> extraParam) {
@@ -183,7 +181,6 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
          * 添加一个processor到transfer中
          *
          * @param processor processor
-         *
          * @return Builder
          */
         public Builder appendProcessor(BaseProcessor<InnerHmiProcessorBean, Object> processor) {
