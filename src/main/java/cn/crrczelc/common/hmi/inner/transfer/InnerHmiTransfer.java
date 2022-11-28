@@ -69,9 +69,20 @@ public class InnerHmiTransfer extends BaseHmiTransfer<InnerHmiTransferFrom, Inne
             return Maps.expectedSize(0);
         }
 
-        Map<String, List<InnerHmiDetail>> hmiCodeDetailsMap = details.stream()
+        List<InnerHmiDetail> filteredDetailList = details.stream()
                 .filter(innerHmiDetail -> !(Objects.isNull(innerHmiDetail) || StrUtil.hasBlank(innerHmiDetail.getHmiCode(), innerHmiDetail.getParam())))
-                .collect(Collectors.groupingBy(InnerHmiDetail::getHmiCode, LinkedHashMap::new, Collectors.toList()));
+                .collect(Collectors.toList());
+
+        Map<String, List<InnerHmiDetail>> hmiCodeDetailsMap = Maps.expectedLinked(filteredDetailList.size());
+
+        for (InnerHmiDetail innerHmiDetail : filteredDetailList) {
+            if (hmiCodeDetailsMap.containsKey(innerHmiDetail.getHmiCode())) {
+                hmiCodeDetailsMap.put(innerHmiDetail.getHmiCode(), CollectionUtil.newArrayList(innerHmiDetail));
+                continue;
+            }
+
+            hmiCodeDetailsMap.get(innerHmiDetail.getHmiCode()).add(innerHmiDetail);
+        }
 
         Map<String, Map<String, List<InnerHmiDetail>>> hmiCodeParamDetailsMap = Maps.expectedSize(hmiCodeDetailsMap.size());
 
