@@ -122,8 +122,13 @@ public class SingleHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean, 
         }
 
         if (isMappingItem(itemParam, value)) {
-            // 当 isMappingItem 结果为 true ， 但是value的类型不为布尔或value为false时，只有字面值表达true时才有可能
-            if (!BooleanUtil.isBoolean(value.getClass()) || ((Boolean) value)) {
+            // is mapping 时，不是布尔类型，但是是最后一条记录时， 使用字面值判断
+            if (!BooleanUtil.isBoolean(value.getClass()) && !last) {
+                return InnerHmiResult.create(itemParam.getHmiDetail(), BooleanUtil.toBoolean(value.toString()));
+            }
+
+            // 是布尔类型，且为true时
+            if (BooleanUtil.isBoolean(value.getClass()) && ((Boolean) value)) {
                 return InnerHmiResult.create(itemParam.getHmiDetail(), true);
             }
 
