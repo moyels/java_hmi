@@ -47,7 +47,6 @@ public class SingleHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean, 
      * 简单校验参数
      *
      * @param inParam 入参
-     *
      * @return 简单校验是否符合程序继续执行的条件
      */
     private boolean validate(InnerHmiProcessorBean inParam) {
@@ -143,14 +142,6 @@ public class SingleHmiProcessor extends BaseHmiProcessor<InnerHmiProcessorBean, 
 
     private boolean isMappingItem(InnerHmiProcessorItemBean item, Object value) {
         // 如果 mapping value 没有值，表示绝不可能为 mapping 类型
-        if (StrUtil.isBlank(item.getHmiDetail().getMappingValue())) {
-            return false;
-        }
-
-        // 此时 mapping value 一定有值， 则将value的字面值转换为布尔类型
-        boolean booleanVal = BooleanUtil.toBoolean(value.toString());
-
-        // 如果value本身是布尔类型或字面值表示true，则将此条认为是mapping类型
-        return BooleanUtil.isBoolean(value.getClass()) || booleanVal;
+        return !StrUtil.isBlank(item.getHmiDetail().getMappingValue());
     }
 }
