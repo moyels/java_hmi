@@ -90,6 +90,10 @@ public class HmiExpItemProcessor extends BaseHmiItemProcessor<InnerHmiProcessorI
             } else {
                 Matcher matcher = EXP_ITEM_PATTERN.matcher(exp);
 
+                if (!matcher.find()) {
+                    res = false;
+                }
+
                 String left = CatchUtil.catchExcept(() -> matcher.group(1));
                 String middle = CatchUtil.catchExcept(() -> matcher.group(2));
                 String right = CatchUtil.catchExcept(() -> matcher.group(3));
