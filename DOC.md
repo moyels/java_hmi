@@ -2,7 +2,7 @@
     1. maven
        ```xml
        <dependency>
-          <groupId>cn.crrczelc.common</groupId>
+          <groupId>top.moyel.common.common</groupId>
           <artifactId>hmi</artifactId>
           <version>${latest_version}</version>
        </dependency>
@@ -10,13 +10,13 @@
     2. gradle
        ```gradle
        dependencies {
-          compile 'cn.crrczelc.common:hmi:${latest_version}'
+          compile 'top.moyel.common:hmi:${latest_version}'
        }
        ```
     3. gradle(dsl)
        ```kts
        dependencies {
-          implementation("cn.crrczelc.common:hmi:${latest_version}")
+          implementation("top.moyel.common:hmi:${latest_version}")
        }
        ```
 
@@ -85,26 +85,27 @@
 
    > 此前在创建InnerHmiTransfer时是直接使用无参数的appendProcessor，此操作会直接将ProcessorCacheUtil中创建好的processor按顺序加入到transfer中，如果需要新增自定义的processor，则需要在此处调整appendProcessor的执行
 
-   1. java
-      ```java
-      class Demo {
-          public InnerHmiTransfer innerHmiTransfer() {
-              new InnerHmiTransfer.Builder()
-       		   .setXxx()
-       		   // 此处可根据按顺序添加自定义的processor，且自定义的processor中可以添加subProcessor（如添加singleHmiProcessor），则可以利用已写好的部分hmi处理器
-       		   .appendProcessor(xxxProcessor)
-       		   // singleHmiProcessor必须最后一个添加，因为是最基础的hmi转换的功能
-       		   .appendProcessor(singleHmiProcessor)
-       		   .build();
-          }
-      }
-      ```
+    1. java
+       ```java
+       class Demo {
+           public InnerHmiTransfer innerHmiTransfer() {
+               new InnerHmiTransfer.Builder()
+                   .setXxx()
+                   // 此处可根据按顺序添加自定义的processor，且自定义的processor中可以添加subProcessor（如添加singleHmiProcessor），则可以利用已写好的部分hmi处理器
+                   .appendProcessor(xxxProcessor)
+                   // singleHmiProcessor必须最后一个添加，因为是最基础的hmi转换的功能
+                   .appendProcessor(singleHmiProcessor)
+                   .build();
+           }
+       }
+       ```
 
 4. 自定义前后处理器
 
-    > 此处前后处理器是针对于singleHmiProcessor而言的，因为transfer中调用的所有processor的subProcessors中都需要包含singleHmiProcessor作为基础hmi处理的功能
+   > 此处前后处理器是针对于singleHmiProcessor而言的，因为transfer中调用的所有processor的subProcessors中都需要包含singleHmiProcessor作为基础hmi处理的功能
 
-    1. 需要注意的是，singleHmiProcessor的前处理器默认使用了JsonParse的前处理器，会在执行hmi前将extraInfo信息转换为JsonObject类型，如果设置了自定义的前处理器但又想保留此功能，可以使用subProcessors形式组合多个processor进行处理
+    1.
+    需要注意的是，singleHmiProcessor的前处理器默认使用了JsonParse的前处理器，会在执行hmi前将extraInfo信息转换为JsonObject类型，如果设置了自定义的前处理器但又想保留此功能，可以使用subProcessors形式组合多个processor进行处理
 
     2. singleHmiProcessor的后处理器默认为空
 
