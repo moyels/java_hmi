@@ -96,6 +96,6 @@ public class InnerHmiResult {
         }
 
         String[] remarks = remark.split(DelimiterConsts.REMARK_DELIMITER);
-        return remark.length() < 2 ? remark : isDefault ? remarks[1] : remarks[0];
+        return remarks.length < 2 ? remark : isDefault ? remarks[1] : remarks[0];
     }
 }
